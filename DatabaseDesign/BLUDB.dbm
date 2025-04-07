@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--xtools2_universal_type_manager-->
+<xmi:XMI xmlns:datamodelversion="http://www.ibm.com/com.ibm.datatools.core/model/data/1.9.0.0" xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:DB2Model="http:///com/ibm/db/models/db2/db2.ecore" xmlns:LUW="http:///com/ibm/db/models/db2/luw.ecore" xmlns:SQLAccessControl="http:///org/eclipse/datatools/modelbase/sql/accesscontrol.ecore" xmlns:SQLDataTypes="http:///org/eclipse/datatools/modelbase/sql/datatypes.ecore">
+  <LUW:LUWDatabase xmi:id="_31AoYNgCEe2AHsxgkDqvEA" name="BLUDB" vendor="DB2 UDB" version="V10.6" schemas="_31GvANgCEe2AHsxgkDqvEA" authorizationIds="_31HWKdgCEe2AHsxgkDqvEA" federated="true">
+    <eAnnotations xmi:id="_31AoYdgCEe2AHsxgkDqvEA" source="ConnectionURI">
+      <details xmi:id="_31AoYtgCEe2AHsxgkDqvEA" key="ConnectionKey" value="DB2oC"/>
+    </eAnnotations>
+  </LUW:LUWDatabase>
+  <DB2Model:DB2Schema xmi:id="_31GvANgCEe2AHsxgkDqvEA" name="ZSY38244" tables="_31GvAdgCEe2AHsxgkDqvEA _31HWENgCEe2AHsxgkDqvEA _31HWGdgCEe2AHsxgkDqvEA _31HWINgCEe2AHsxgkDqvEA" database="_31AoYNgCEe2AHsxgkDqvEA" owner="_31HWKdgCEe2AHsxgkDqvEA"/>
+  <LUW:LUWTable xmi:id="_31GvAdgCEe2AHsxgkDqvEA" name="ABC" schema="_31GvANgCEe2AHsxgkDqvEA" organizeBy="ROW" rowCompressionEmpty="false" partitionMode=" ">
+    <columns xsi:type="LUW:LUWColumn" xmi:id="_31GvAtgCEe2AHsxgkDqvEA" name="A">
+      <containedType xsi:type="SQLDataTypes:IntegerDataType" xmi:id="_31GvA9gCEe2AHsxgkDqvEA" name="INTEGER" primitiveType="INTEGER"/>
+    </columns>
+  </LUW:LUWTable>
+  <LUW:LUWTable xmi:id="_31HWENgCEe2AHsxgkDqvEA" name="ADMINUSERS" schema="_31GvANgCEe2AHsxgkDqvEA" organizeBy="ROW" rowCompressionEmpty="false" partitionMode=" ">
+    <columns xsi:type="LUW:LUWColumn" xmi:id="_31HWEdgCEe2AHsxgkDqvEA" name="NAME">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_31HWEtgCEe2AHsxgkDqvEA" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="128">
+        <eAnnotations xmi:id="_31HWE9gCEe2AHsxgkDqvEA" source="LENGTH_SEMANTIC">
+          <details xmi:id="_31HWFNgCEe2AHsxgkDqvEA" key="LENGTH_SEMANTIC_TYPE" value="OCTETS"/>
+        </eAnnotations>
+      </containedType>
+    </columns>
+    <columns xsi:type="LUW:LUWColumn" xmi:id="_31HWFdgCEe2AHsxgkDqvEA" name="PASSWORD">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_31HWFtgCEe2AHsxgkDqvEA" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="128">
+        <eAnnotations xmi:id="_31HWF9gCEe2AHsxgkDqvEA" source="LENGTH_SEMANTIC">
+          <details xmi:id="_31HWGNgCEe2AHsxgkDqvEA" key="LENGTH_SEMANTIC_TYPE" value="OCTETS"/>
+        </eAnnotations>
+      </containedType>
+    </columns>
+  </LUW:LUWTable>
+  <LUW:LUWTable xmi:id="_31HWGdgCEe2AHsxgkDqvEA" name="TEA" schema="_31GvANgCEe2AHsxgkDqvEA" organizeBy="ROW" rowCompressionEmpty="false" partitionMode=" ">
+    <columns xsi:type="LUW:LUWColumn" xmi:id="_31HWGtgCEe2AHsxgkDqvEA" name="ID">
+      <containedType xsi:type="SQLDataTypes:IntegerDataType" xmi:id="_31HWG9gCEe2AHsxgkDqvEA" name="INTEGER" primitiveType="INTEGER"/>
+    </columns>
+    <columns xsi:type="LUW:LUWColumn" xmi:id="_31HWHNgCEe2AHsxgkDqvEA" name="NAME">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_31HWHdgCEe2AHsxgkDqvEA" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="128">
+        <eAnnotations xmi:id="_31HWHtgCEe2AHsxgkDqvEA" source="LENGTH_SEMANTIC">
+          <details xmi:id="_31HWH9gCEe2AHsxgkDqvEA" key="LENGTH_SEMANTIC_TYPE" value="OCTETS"/>
+        </eAnnotations>
+      </containedType>
+    </columns>
+  </LUW:LUWTable>
+  <LUW:LUWTable xmi:id="_31HWINgCEe2AHsxgkDqvEA" name="USERDATA" schema="_31GvANgCEe2AHsxgkDqvEA" organizeBy="ROW" rowCompressionEmpty="false" partitionMode=" ">
+    <columns xsi:type="LUW:LUWColumn" xmi:id="_31HWIdgCEe2AHsxgkDqvEA" name="ID">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_31HWItgCEe2AHsxgkDqvEA" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="128">
+        <eAnnotations xmi:id="_31HWI9gCEe2AHsxgkDqvEA" source="LENGTH_SEMANTIC">
+          <details xmi:id="_31HWJNgCEe2AHsxgkDqvEA" key="LENGTH_SEMANTIC_TYPE" value="OCTETS"/>
+        </eAnnotations>
+      </containedType>
+    </columns>
+    <columns xsi:type="LUW:LUWColumn" xmi:id="_31HWJdgCEe2AHsxgkDqvEA" name="NAME">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_31HWJtgCEe2AHsxgkDqvEA" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="128">
+        <eAnnotations xmi:id="_31HWJ9gCEe2AHsxgkDqvEA" source="LENGTH_SEMANTIC">
+          <details xmi:id="_31HWKNgCEe2AHsxgkDqvEA" key="LENGTH_SEMANTIC_TYPE" value="OCTETS"/>
+        </eAnnotations>
+      </containedType>
+    </columns>
+  </LUW:LUWTable>
+  <SQLAccessControl:User xmi:id="_31HWKdgCEe2AHsxgkDqvEA" name="ZSY38244" description="" ownedSchema="_31GvANgCEe2AHsxgkDqvEA" Database="_31AoYNgCEe2AHsxgkDqvEA"/>
+</xmi:XMI>
