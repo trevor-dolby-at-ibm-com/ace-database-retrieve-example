@@ -12,9 +12,9 @@
       <nodes xmi:type="ComIbmTrace.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_2" location="544,156" destination="localError" pattern="LE:&#xD;&#xA;${LocalEnvironment}&#xD;&#xA;Root:&#xD;&#xA;${Root}">
         <translation xmi:type="utility:ConstantString" string="Trace"/>
       </nodes>
-      <nodes xmi:type="ComIbmDatabaseRetrieve.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_3" location="280,155" dataSourceName="{JDBCPolicies}:BLUDB" copyMessage="true" sqlQuery="SELECT TEA.NAME&#xA;FROM TEA&#xA;WHERE TEA.ID > 0&#xA;ORDER BY TEA.NAME ASC" tableNameComboValues="0,0,0~TEA" columnNameComboValues="0,1,0~ID,NAME" operatorComboValues="4,0,0~ASC" valueTypeComboValues="4,0,0,0~None" columnValueComboValues="1~TEA.ID">
+      <nodes xmi:type="ComIbmDatabaseRetrieve.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_3" location="280,155" dataSourceName="{JDBCPolicies}:Host3" copyMessage="true" sqlQuery="SELECT TEA.NAME&#xA;FROM TEA&#xA;WHERE TEA.ID > 1&#xA;ORDER BY TEA.NAME ASC" tableNameComboValues="0,0,0~TEA" columnNameComboValues="0,1,0~ID,NAME" operatorComboValues="4,0,0~ASC" valueTypeComboValues="4,0,0,0~None" columnValueComboValues="1~TEA.NAME">
         <translation xmi:type="utility:ConstantString" string="Database Retrieve"/>
-        <queryElements tableName="TEA" columnName="ID" operator=">" valueType="Integer" value="0"/>
+        <queryElements tableName="TEA" columnName="ID" operator=">" valueType="Integer" value="1"/>
         <queryElements tableName="TEA" columnName="NAME" operator="ASC" valueType="None" value="None"/>
         <dataElements columnName="TEA.NAME" messageElement="$OutputRoot/XMLNSC/test/name"/>
       </nodes>

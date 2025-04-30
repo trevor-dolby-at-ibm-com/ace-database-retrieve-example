@@ -1,0 +1,11 @@
+
+
+CREATE COMPUTE MODULE DatabaseRetrieve_SetSuccessFlag
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET Environment.success = TRUE;
+		SET Environment.connectionSuccess = TRUE;
+		RETURN TRUE;
+	END;
+
+END MODULE;

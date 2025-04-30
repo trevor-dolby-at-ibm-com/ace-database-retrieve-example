@@ -1,0 +1,18 @@
+
+
+CREATE COMPUTE MODULE DatabaseRetrieve_Revalidation
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE envRef REFERENCE TO Environment;
+
+		set Environment.dbOneResult = CallOneDatabase(1, envRef);
+		set Environment.dbTwoResult = CallOneDatabase(2, envRef);
+		set Environment.dbThreeResult = CallOneDatabase(3, envRef);
+		set Environment.dbFourResult = CallOneDatabase(4, envRef);
+		
+		-- Debugging
+		CALL GetSharedData(envRef);
+		RETURN TRUE;
+	END;
+
+END MODULE;

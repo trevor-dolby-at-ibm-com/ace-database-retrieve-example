@@ -1,0 +1,90 @@
+	
+	DECLARE nextDatabaseNumber SHARED INTEGER 0;
+	DECLARE databaseList SHARED ROW;
+	
+	CREATE FUNCTION GetNextDatabaseNumber() RETURNS INTEGER
+	DatabaseListLockLabel: BEGIN ATOMIC READ WRITE
+		IF nextDatabaseNumber = 0 THEN
+			-- Initialize the list
+			SET databaseList.Host[1].available = TRUE;
+			SET databaseList.Host[2].available = TRUE;
+			SET databaseList.Host[3].available = TRUE;
+			SET databaseList.Host[4].available = TRUE;
+			SET nextDatabaseNumber = 1;
+		END If;
+		
+		
+		DECLARE retVal INTEGER nextDatabaseNumber;
+		DECLARE I INTEGER 1;
+		
+		X: WHILE ( I < 5 ) DO 
+			IF databaseList.Host[retVal].available = TRUE THEN
+				LEAVE X;
+			END IF;
+			SET retVal = retVal + 1;
+			IF retVal > 4 THEN
+				SET retVal = 1;
+			END IF;
+			SET I = I + 1;
+		END WHILE X;			
+		
+		IF databaseList.Host[retVal].available = TRUE THEN
+			SET nextDatabaseNumber = retVal + 1;
+			IF nextDatabaseNumber > 4 THEN
+				SET nextDatabaseNumber = 1;
+			END IF;
+		END IF;
+			
+		RETURN retVal;
+	END;
+	
+	
+	CREATE FUNCTION SetDatabaseSuccess(IN dbNumber INTEGER, IN successTimestamp GMTTIMESTAMP)
+	DatabaseListLockLabel: BEGIN ATOMIC READ WRITE
+		SET databaseList.Host[dbNumber].available = TRUE;
+		SET databaseList.Host[dbNumber].lastSuccessime = successTimestamp;
+	END;
+	
+	
+	CREATE FUNCTION SetDatabaseFailed(IN dbNumber INTEGER, IN failureTimestamp GMTTIMESTAMP)
+	DatabaseListLockLabel: BEGIN ATOMIC READ WRITE
+		SET databaseList.Host[dbNumber].available = FALSE;
+		SET databaseList.Host[dbNumber].lastFailureTime = failureTimestamp;
+	END;
+	
+	CREATE FUNCTION GetSharedData(IN envRef REFERENCE)
+	DatabaseListLockLabel: BEGIN ATOMIC READ WRITE
+		SET envRef.debug.databaseList = databaseList;
+		SET envRef.debug.nextDatabaseNumber = nextDatabaseNumber;
+	END;
+	
+	
+
+	CREATE FUNCTION CallOneDatabase(IN dbNumber INTEGER, IN envRef REFERENCE) RETURNS BOOLEAN
+	BEGIN
+		DECLARE EXIT HANDLER FOR SQLSTATE LIKE '%'
+		BEGIN
+			CALL SetDatabaseFailed(dbNumber, CURRENT_GMTTIMESTAMP);
+			RETURN FALSE;
+		END;
+		SET envRef.success           = FALSE;
+		SET envRef.connectionSuccess = FALSE;
+		IF dbNumber = 1 THEN
+			PROPAGATE TO TERMINAL 'out1';
+		ELSEIF dbNumber = 2 THEN
+			PROPAGATE TO TERMINAL 'out2';
+		ELSEIF dbNumber = 3 THEN
+			PROPAGATE TO TERMINAL 'out3';
+		ELSEIF dbNumber = 4 THEN
+			PROPAGATE TO TERMINAL 'out4';
+		END IF;
+			
+		IF envRef.connectionSuccess = TRUE THEN
+			CALL SetDatabaseSuccess(dbNumber, CURRENT_GMTTIMESTAMP);
+		END IF;
+		IF envRef.success = TRUE THEN
+			RETURN TRUE;
+		END IF;
+		RETURN FALSE;
+	END;
+	

@@ -1,0 +1,27 @@
+
+
+CREATE COMPUTE MODULE DatabaseRetrieve_CallSimpleSelect
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE envRef REFERENCE TO Environment;
+				
+		DECLARE dbToTry INTEGER 0;
+		SET dbToTry = GetNextDatabaseNumber();
+		
+		DECLARE I INTEGER 1;
+		X: WHILE ( I < 5 ) DO
+			set Environment.dbResult[I].dbNumber = dbToTry;
+			set Environment.dbResult[I].result = CallOneDatabase(dbToTry, envRef);
+		 
+			IF Environment.dbResult[I].result = TRUE THEN
+				LEAVE X;
+			END IF;
+			SET dbToTry = GetNextDatabaseNumber();
+			SET I = I + 1;
+		END WHILE X;			
+		
+		-- Debugging
+		CALL GetSharedData(envRef);
+		RETURN TRUE;
+	END;
+END MODULE;
