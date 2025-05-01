@@ -79,14 +79,16 @@
 			PROPAGATE TO TERMINAL 'out4';
 		END IF;
 		
-		--IF envRef.exceptionList IS NOT NULL THEN
-			DECLARE elRef REFERENCE TO envRef.exceptionList;
+		
+		DECLARE elRef REFERENCE TO envRef.exceptionList;
+		IF LASTMOVE(elRef) THEN
 			DECLARE messageNumber INTEGER;
 			DECLARE messageText CHARACTER;
 			DECLARE messageInserts CHARACTER;
 			CALL getLastExceptionDetail(elRef, messageNumber, messageText, messageInserts);
 			LOG EVENT SEVERITY 4 CATALOG 'BIPmsgs' MESSAGE 8099 VALUES('Database exception ' || CAST(dbNumber AS CHARACTER CCSID 1208), messageText, messageInserts, '');
-		--END IF;
+			CALL SetDatabaseFailed(dbNumber, CURRENT_GMTTIMESTAMP);
+		END IF;
 		
 		IF envRef.connectionSuccess = TRUE THEN
 			CALL SetDatabaseSuccess(dbNumber, CURRENT_GMTTIMESTAMP);
