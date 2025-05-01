@@ -78,13 +78,51 @@
 		ELSEIF dbNumber = 4 THEN
 			PROPAGATE TO TERMINAL 'out4';
 		END IF;
-			
+		
+		--IF envRef.exceptionList IS NOT NULL THEN
+			DECLARE elRef REFERENCE TO envRef.exceptionList;
+			DECLARE messageNumber INTEGER;
+			DECLARE messageText CHARACTER;
+			DECLARE messageInserts CHARACTER;
+			CALL getLastExceptionDetail(elRef, messageNumber, messageText, messageInserts);
+			LOG EVENT SEVERITY 4 CATALOG 'BIPmsgs' MESSAGE 8099 VALUES('Database exception ' || CAST(dbNumber AS CHARACTER CCSID 1208), messageText, messageInserts, '');
+		--END IF;
+		
 		IF envRef.connectionSuccess = TRUE THEN
 			CALL SetDatabaseSuccess(dbNumber, CURRENT_GMTTIMESTAMP);
-		END IF;
+		END IF; 
 		IF envRef.success = TRUE THEN
 			RETURN TRUE;
 		END IF;
 		RETURN FALSE;
 	END;
-	
+		
+CREATE PROCEDURE getLastExceptionDetail(IN InputTree reference, OUT messageNumber integer, OUT messageText char, OUT messageInserts CHAR)
+  /****************************************************************************
+   * A procedure that will get the details of the last exception from a message
+   * IN InputTree:  The incoming exception list
+   * IN messageNumber:  The last message numberr.
+   * IN messageText: The last message text.
+   * IN messageInserts: The last message inserts concatenated.
+   *****************************************************************************/
+  BEGIN
+    -- Create a reference to the first child of the exception list
+    DECLARE ptrException REFERENCE TO InputTree.*[1];
+    -- keep looping while the moves to the child of exception list work
+    WHILE LASTMOVE(ptrException) DO
+      -- store the current values for the error number and text
+      IF ptrException.Number IS NOT NULL THEN
+        SET messageNumber = ptrException.Number;
+        SET messageText = ptrException.Text;
+        DECLARE insertsTextTemp CHARACTER ptrException.Insert[2].Text;
+        DECLARE insertsRef REFERENCE TO ptrException.Insert[3];
+	    WHILE LASTMOVE(insertsRef) DO
+	    	SET insertsTextTemp = insertsTextTemp || ',' || insertsRef.Text; 
+	    	MOVE insertsRef NEXTSIBLING;
+	    END WHILE;
+	    SET messageInserts = insertsTextTemp;
+      END IF;
+      -- now move to the last child which should be the next exceptionlist
+      MOVE ptrException LASTCHILD;
+    END WHILE;
+  END;	

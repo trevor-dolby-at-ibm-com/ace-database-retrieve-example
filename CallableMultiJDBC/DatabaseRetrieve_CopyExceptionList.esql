@@ -1,0 +1,9 @@
+
+
+CREATE COMPUTE MODULE DatabaseRetrieve_CopyExceptionList
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET Environment.exceptionList = InputExceptionList;
+		RETURN TRUE;
+	END;
+END MODULE;
